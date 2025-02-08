@@ -1,7 +1,10 @@
 package org.gordeser.user_service.entitiy;
 
 
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -76,4 +79,11 @@ public class User {
 
     @ManyToMany(mappedBy = "followers")
     private List<User> followees; // users which is that user following
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "fileId", column = @Column(name = "profile_pic_file_id")),
+            @AttributeOverride(name = "smallFileId", column = @Column(name = "profile_pic_small_file_id"))
+    })
+    private UserProfilePic userProfilePic;
 }
