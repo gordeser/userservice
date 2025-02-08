@@ -13,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -88,4 +89,13 @@ public class User {
             @AttributeOverride(name = "smallFileId", column = @Column(name = "profile_pic_small_file_id"))
     })
     private UserProfilePic userProfilePic;
+
+    @OneToMany(mappedBy = "owner")
+    private List<Event> eventOwner;
+
+    @ManyToMany
+    @JoinTable(name = "user_event",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id"))
+    private List<Event> participatedEvents;
 }
