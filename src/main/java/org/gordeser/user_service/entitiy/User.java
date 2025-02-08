@@ -101,4 +101,19 @@ public class User {
 
     @ManyToMany(mappedBy = "users")
     private List<Skill> skills;
+
+    @ManyToMany(mappedBy = "mentors")
+    private List<User> mentees;
+
+    @ManyToMany
+    @JoinTable(name = "mentorship",
+            joinColumns = @JoinColumn(name = "mentee_id"),
+            inverseJoinColumns = @JoinColumn(name = "mentor_id"))
+    private List<User> mentors;
+
+    @OneToMany(mappedBy = "mentor")
+    private List<Goal> mentoringGoals;
+
+    @ManyToMany(mappedBy = "users")
+    private List<Goal> goals;
 }
