@@ -3,6 +3,8 @@ package org.gordeser.user_service.entitiy;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -10,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -67,6 +70,18 @@ public class Event {
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "skill_id"))
     private List<Skill> relatedSkills;
+
+
+    @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.ORDINAL)
+    private EventStatus status;
+
+    @Column(name = "type", nullable = false)
+    @Enumerated(EnumType.ORDINAL)
+    private EventType type;
+
+    @OneToMany(mappedBy = "event")
+    private List<Rating> ratings;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)

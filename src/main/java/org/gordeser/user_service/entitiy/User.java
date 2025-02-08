@@ -116,4 +116,7 @@ public class User {
 
     @ManyToMany(mappedBy = "users")
     private List<Goal> goals;
+
+    @OneToMany(mappedBy = "user")
+    private List<Rating> ratings;
 }
