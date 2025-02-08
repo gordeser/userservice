@@ -98,4 +98,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "event_id"))
     private List<Event> participatedEvents;
+
+    @ManyToMany(mappedBy = "users")
+    private List<Skill> skills;
 }
