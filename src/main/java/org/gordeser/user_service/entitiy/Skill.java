@@ -35,8 +35,8 @@ public class Skill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false, unique = true, length = 256)
-    private String name;
+    @Column(name = "title", nullable = false, unique = true, length = 256)
+    private String title;
 
     @ManyToMany
     @JoinTable(name = "user_skills",

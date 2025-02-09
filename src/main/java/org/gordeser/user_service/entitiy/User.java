@@ -91,7 +91,7 @@ public class User {
     private UserProfilePic userProfilePic;
 
     @OneToMany(mappedBy = "owner")
-    private List<Event> eventOwner;
+    private List<Event> ownedEvents;
 
     @ManyToMany
     @JoinTable(name = "user_event",
@@ -122,4 +122,16 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Contact> contacts;
+
+    @OneToMany(mappedBy = "receiver")
+    private List<MentorshipRequest> receivedMentorshipRequests;
+
+    @OneToMany(mappedBy = "requester")
+    private List<MentorshipRequest> sentMentorshipRequests;
+
+    @OneToMany(mappedBy = "invited")
+    private List<GoalInvitation> receivedGoalInvitations;
+
+    @OneToMany(mappedBy = "inviter")
+    private List<GoalInvitation> sentGoalInvitations;
 }
