@@ -31,8 +31,8 @@ import java.time.LocalDateTime;
 @Table(name = "rating")
 public class Rating {
 
-    private static final Integer RATE_MIN_VALUE = 0;
-    private static final Integer RATE_MAX_VALUE = 5;
+    private static final int RATE_MIN_VALUE = 0;
+    private static final int RATE_MAX_VALUE = 5;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
