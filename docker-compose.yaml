@@ -1,32 +1,23 @@
 services:
-  postgresql:
-    image: postgres:17.2
+  postgres:
+    image: postgres
     restart: always
     container_name: user_database
     environment:
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=user_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
     ports:
       - '5432:5432'
-    networks:
-      - backend_network
 
   user_service:
     image: user_service:latest
     build:
       context: .
       dockerfile: Dockerfile
-    restart: "no"
     container_name: user_service
     ports:
-      - "8080:8080"
+      - '8080:8080'
     depends_on:
       postgresql:
         condition: service_started
-    networks:
-      - backend_network
-
-networks:
-  backend_network:
-    driver: bridge
