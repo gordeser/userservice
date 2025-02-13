@@ -1,0 +1,40 @@
+services:
+  database:
+    image: postgres:17.2
+    restart: "no"
+    ports:
+      - "5432:5432"
+    volumes:
+      - database_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: userdb
+    healthcheck:
+      test: pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB
+      interval: 10s
+      timeout: 5s
+      start_period: 10s
+      retries: 5
+
+  user_service:
+    image: user_service:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: "no"
+    ports:
+      - "8080:8080"
+    depends_on:
+      database:
+        condition: service_started
+    networks:
+      - backend_network
+
+
+volumes:
+  database_data:
+
+networks:
+  backend_network:
+    driver: bridge
