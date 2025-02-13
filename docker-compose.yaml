@@ -1,21 +1,16 @@
 services:
-  database:
+  postgresql:
     image: postgres:17.2
-    restart: "no"
-    ports:
-      - "5432:5432"
-    volumes:
-      - database_data:/var/lib/postgresql/data
+    restart: always
+    container_name: user_database
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: postgres
-    healthcheck:
-      test: pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB
-      interval: 10s
-      timeout: 5s
-      start_period: 10s
-      retries: 5
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=user_db
+    ports:
+      - '5432:5432'
+    networks:
+      - backend_network
 
   user_service:
     image: user_service:latest
@@ -23,6 +18,7 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: "no"
+    container_name: user_service
     ports:
       - "8080:8080"
     depends_on:
@@ -30,10 +26,6 @@ services:
         condition: service_started
     networks:
       - backend_network
-
-
-volumes:
-  database_data:
 
 networks:
   backend_network:
