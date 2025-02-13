@@ -30,6 +30,13 @@ jobs:
         run: ./gradlew test --no-daemon
         continue-on-error: false
 
+      - name: Upload checkstyle report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: checkstyle-report
+          path: build/reports/checkstyle/
+
       - name: Upload test reports
         if: always()
         uses: actions/upload-artifact@v4
