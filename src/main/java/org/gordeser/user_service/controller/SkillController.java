@@ -4,7 +4,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.gordeser.user_service.dto.SkillDto;
-import org.gordeser.user_service.entitiy.Skill;
 import org.gordeser.user_service.service.SkillService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +20,7 @@ public class SkillController {
     private final SkillService skillService;
 
     @PostMapping
-    public Skill createSkill(@RequestBody @Valid SkillDto skill) {
+    public SkillDto createSkill(@Valid @RequestBody SkillDto skill) {
         log.info("Create skill: {}", skill);
         return skillService.createSkill(skill);
     }
