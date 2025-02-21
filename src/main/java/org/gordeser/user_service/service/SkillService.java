@@ -3,26 +3,33 @@ package org.gordeser.user_service.service;
 import lombok.RequiredArgsConstructor;
 import org.gordeser.user_service.dto.SkillDto;
 import org.gordeser.user_service.entitiy.Skill;
+import org.gordeser.user_service.entitiy.UserSkillGuarantee;
 import org.gordeser.user_service.exception.DataValidationException;
 import org.gordeser.user_service.repository.SkillRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class SkillService {
     private final SkillRepository skillRepository;
 
-    public Skill createSkill(SkillDto skill) {
-
-        if (skillRepository.findByTitle(skill.getTitle()).isPresent()) {
-            throw new DataValidationException("Skill with that title already exists.");
+    public SkillDto createSkill(SkillDto skillDto) {
+        if (skillRepository.existsByTitle(skillDto.getTitle())) {
+            throw new DataValidationException("Skill with title " + skillDto.getTitle() + " already exists.");
         }
 
         Skill newSkill = Skill.builder()
-                .title(skill.getTitle())
+                .title(skillDto.getTitle())
                 .build();
 
-        return skillRepository.save(newSkill);
+        Skill savedSkill = skillRepository.save(newSkill);
+
+        return SkillDto.builder()
+                .id(savedSkill.getId())
+                .title(savedSkill.getTitle())
+                .build();
     }
 
     public void deleteSkill(Long skillId) {
