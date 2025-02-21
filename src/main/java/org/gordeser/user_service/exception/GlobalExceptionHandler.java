@@ -7,6 +7,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,6 +30,19 @@ public class GlobalExceptionHandler {
                 );
 
         return errors;
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleArgumentTypeMismatch(MethodArgumentTypeMismatchException exception, HttpServletRequest request) {
+        log.error("MethodArgumentTypeMismatchException {}", exception.getMessage());
+
+        return ErrorResponse.builder()
+                .url(request.getRequestURL().toString())
+                .status(HttpStatus.BAD_REQUEST)
+                .error("MethodArgumentTypeMismatchException")
+                .message(exception.getMessage())
+                .build();
     }
 
     @ExceptionHandler(DataValidationException.class)
