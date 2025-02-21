@@ -44,10 +44,10 @@ public class Goal {
     @JoinColumn(name = "parent_goal_id")
     private Goal parent;
 
-    @Column(name = "title", nullable = false, length = 256)
+    @Column(name = "title", nullable = false, length = 64, unique = true)
     private String title;
 
-    @Column(name = "description", nullable = false, length = 256)
+    @Column(name = "description", nullable = false, length = 128, unique = true)
     private String description;
 
     @Column(name = "status", nullable = false)
