@@ -1,6 +1,7 @@
 package org.gordeser.user_service.entitiy;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
@@ -43,16 +44,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username", unique = true, nullable = false, length = 256)
+    @Column(name = "username", unique = true, nullable = false, length = 64)
     private String username;
 
-    @Column(name = "email", unique = true, nullable = false, length = 256)
+    @Column(name = "email", unique = true, nullable = false, length = 64)
     private String email;
 
-    @Column(name = "phone", unique = true, length = 256)
+    @Column(name = "phone", unique = true, length = 32)
     private String phone;
 
-    @Column(name = "password", nullable = false, length = 256)
+    @Column(name = "password", nullable = false, length = 128)
     private String password;
 
     @Column(name = "about_me", length = 4096)
@@ -62,7 +63,7 @@ public class User {
     @JoinColumn(name = "country_id", nullable = false)
     private Country country;
 
-    @Column(name = "city", length = 128)
+    @Column(name = "city", length = 64)
     private String city;
 
     @CreationTimestamp
@@ -138,4 +139,19 @@ public class User {
 
     @OneToOne(mappedBy = "user")
     private Premium premium;
+
+    @Column(name = "active", nullable = false)
+    private boolean active;
+
+    @Column(name = "experience")
+    private Integer experience;
+
+    @OneToMany(mappedBy = "author")
+    private List<Recommendation> recommendationsGiven;
+
+    @OneToMany(mappedBy = "receiver")
+    private List<Recommendation> recommendationsReceived;
+
+    @OneToOne(mappedBy = "user")
+    private ContactPreference contactPreference;
 }
