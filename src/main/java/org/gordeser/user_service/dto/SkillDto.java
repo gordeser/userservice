@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -16,4 +18,5 @@ public class SkillDto {
     @NotBlank
     @Size(min = 1, max = 256)
     private String title;
+    private List<UserSkillGuaranteeDto> guaranteeDtoList;
 }
