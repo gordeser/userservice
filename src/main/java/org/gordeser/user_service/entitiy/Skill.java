@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -35,7 +36,7 @@ public class Skill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "title", nullable = false, unique = true, length = 256)
+    @Column(name = "title", nullable = false, unique = true, length = 64)
     private String title;
 
     @ManyToMany
@@ -44,8 +45,14 @@ public class Skill {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> users;
 
+    @OneToMany(mappedBy = "skill")
+    private List<UserSkillGuarantee> guarantees;
+
     @ManyToMany(mappedBy = "relatedSkills")
     private List<Event> events;
+
+    @ManyToMany(mappedBy = "skillsToObtain")
+    private List<Goal> goals;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
