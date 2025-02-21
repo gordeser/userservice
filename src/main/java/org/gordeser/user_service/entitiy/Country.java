@@ -1,7 +1,6 @@
 package org.gordeser.user_service.entitiy;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,10 +29,9 @@ public class Country {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false, unique = true, length = 256)
+    @Column(name = "name", nullable = false, unique = true, length = 64)
     private String name;
 
     @OneToMany(mappedBy = "country")
-    @JsonIgnore
     private List<User> residents;
 }
