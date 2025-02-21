@@ -40,13 +40,13 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "title", nullable = false, length = 256)
+    @Column(name = "title", nullable = false, length = 64)
     private String title;
 
     @Column(name = "description", nullable = false, length = 4096)
     private String description;
 
-    @Column(name = "location", nullable = false, length = 256)
+    @Column(name = "location", nullable = false, length = 128)
     private String location;
 
     @Column(name = "start_date", columnDefinition = "TIMESTAMP")
