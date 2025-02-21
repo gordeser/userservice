@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.gordeser.user_service.dto.SkillDto;
+import org.gordeser.user_service.exception.DataValidationException;
 import org.gordeser.user_service.service.SkillService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,13 +23,23 @@ public class SkillController {
     @PostMapping
     public SkillDto createSkill(@Valid @RequestBody SkillDto skill) {
         log.info("Create skill: {}", skill);
+
         return skillService.createSkill(skill);
     }
 
     @DeleteMapping("/{id}")
     public String deleteSkill(@PathVariable("id") Long skillId) {
         log.info("Delete skill by id: {}", skillId);
+
+        if (skillId == null) {
+            throw new DataValidationException("Skill id is invalid");
+        }
+
+        if (skillId < 0) {
+            throw new DataValidationException("Skill id" + skillId + " is invalid");
+        }
+
         skillService.deleteSkill(skillId);
-        return "OK";
+        return "Skill deleted successfully";
     }
 }

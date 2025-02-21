@@ -3,12 +3,9 @@ package org.gordeser.user_service.service;
 import lombok.RequiredArgsConstructor;
 import org.gordeser.user_service.dto.SkillDto;
 import org.gordeser.user_service.entitiy.Skill;
-import org.gordeser.user_service.entitiy.UserSkillGuarantee;
 import org.gordeser.user_service.exception.DataValidationException;
 import org.gordeser.user_service.repository.SkillRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -20,12 +17,14 @@ public class SkillService {
             throw new DataValidationException("Skill with title " + skillDto.getTitle() + " already exists.");
         }
 
+        // TODO: handle list of skill guarantees (dto -> skill)
         Skill newSkill = Skill.builder()
                 .title(skillDto.getTitle())
                 .build();
 
         Skill savedSkill = skillRepository.save(newSkill);
 
+        // TODO: handle list of skill guarantees (skill -> dto)
         return SkillDto.builder()
                 .id(savedSkill.getId())
                 .title(savedSkill.getTitle())
